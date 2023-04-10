@@ -1,25 +1,25 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
 import {
+  GoogleAuthProvider,
   getAuth,
   signInWithPopup,
-  GoogleAuthProvider,
   GithubAuthProvider,
   signInWithEmailAndPassword,
 } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCkIeuh0CHCissFZ-YHbUBNKPP54xsgSWA",
-  authDomain: "lgoin-form-v1.firebaseapp.com",
-  projectId: "lgoin-form-v1",
-  storageBucket: "lgoin-form-v1.appspot.com",
-  messagingSenderId: "2386873630",
-  appId: "1:2386873630:web:937d4d0d16ced3717b8d0f",
+  apiKey: "AIzaSyDAOOrUPqBOaohjVS4-DbrDPUSGFl60ssg",
+  authDomain: "login-form-v0.firebaseapp.com",
+  projectId: "login-form-v0",
+  storageBucket: "login-form-v0.appspot.com",
+  messagingSenderId: "429402767465",
+  appId: "1:429402767465:web:73276fdcb1baf4262ca2f8",
 };
 
 const app = initializeApp(firebaseConfig);
 
 const card = document.querySelector(".card h1");
-const name = document.querySelector(".card h1 span");
+const name = document.getElementById("Uname");
 const form = document.querySelector("form");
 
 const googleSignBtn = document.getElementById("google");
@@ -41,7 +41,6 @@ googleSignBtn.addEventListener("click", () => {
       console.log(errorCode, errorMessage);
     });
 });
-
 githubSignBtn.addEventListener("click", () => {
   const provider = new GithubAuthProvider();
   const auth = getAuth(app);
@@ -51,7 +50,6 @@ githubSignBtn.addEventListener("click", () => {
       card.classList.remove("hidden");
       form.classList.add("hidden");
       name.innerHTML = user.displayName;
-      console.log(user);
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -61,26 +59,22 @@ githubSignBtn.addEventListener("click", () => {
 });
 
 form.addEventListener("submit", (e) => {
-e.preventDefault()
+  e.preventDefault();
   const email = document.getElementById("name").value;
   const password = document.getElementById("password").value;
 
   const auth = getAuth(app);
 
-  signInWithEmailAndPassword(auth,email,password).then((userCredential) => {
-    // Signed in 
-    const user = userCredential.user;
-    card.classList.remove("hidden");
-    form.classList.add("hidden");
-    name.innerHTML = user.email;
-    console.log(user);
-    // ...
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log(errorCode,errorMessage);
-  });
-
-
-})
+  signInWithEmailAndPassword(auth, email, password)
+    .then((result) => {
+      const user = result.user;
+      card.classList.remove("hidden");
+      form.classList.add("hidden");
+      name.innerHTML = user.email;
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode, errorMessage);
+    });
+});
