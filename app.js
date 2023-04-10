@@ -4,6 +4,7 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   GithubAuthProvider,
+  signInWithEmailAndPassword,
 } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
 
 const firebaseConfig = {
@@ -58,3 +59,28 @@ githubSignBtn.addEventListener("click", () => {
       console.log(errorCode, errorMessage);
     });
 });
+
+form.addEventListener("submit", (e) => {
+e.preventDefault()
+  const email = document.getElementById("name").value;
+  const password = document.getElementById("password").value;
+
+  const auth = getAuth(app);
+
+  signInWithEmailAndPassword(auth,email,password).then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    card.classList.remove("hidden");
+    form.classList.add("hidden");
+    name.innerHTML = user.email;
+    console.log(user);
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.log(errorCode,errorMessage);
+  });
+
+
+})
